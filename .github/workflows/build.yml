@@ -21,6 +21,13 @@ jobs:
           distribution: 'temurin'
           cache: gradle
 
+      - name: Download Gradle Wrapper JAR
+        run: |
+          mkdir -p gradle/wrapper
+          curl -L "https://github.com/gradle/gradle/raw/v8.4.0/gradle/wrapper/gradle-wrapper.jar" \
+            -o gradle/wrapper/gradle-wrapper.jar
+          echo "Gradle wrapper jar: $(du -sh gradle/wrapper/gradle-wrapper.jar)"
+
       - name: Grant execute permission to gradlew
         run: chmod +x gradlew
 
@@ -74,16 +81,15 @@ jobs:
           tag_name: v${{ github.run_number }}
           name: "The Mystic One v${{ github.run_number }} — ${{ steps.date.outputs.date }}"
           body: |
-            ## ✦ The Mystic One — APK Android
+            ## The Mystic One — APK Android
 
-            ### Installation
+            Installation:
             1. Telecharger TheMysticOne.apk
-            2. Sur Android : Parametres -> Securite -> Sources inconnues
-            3. Ouvrir le fichier APK -> Installer
-            4. Lancer l'app -> Parametres -> entrer votre cle Anthropic
+            2. Android - Parametres - Securite - Sources inconnues - Autoriser
+            3. Ouvrir APK - Installer
+            4. Lancer app - engrenage - entrer cle Anthropic
 
-            ### Cle API gratuite
-            https://console.anthropic.com
+            Cle API gratuite: https://console.anthropic.com
           files: artifacts/TheMysticOne.apk
           generate_release_notes: false
         env:
